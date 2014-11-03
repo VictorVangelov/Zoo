@@ -5,3 +5,10 @@ class Zoo():
         self.budget = budget
         self.dict_of_animals = {}
 
+
+
+# dict = {'tiger': ['toshko', 'boshko']}
+
+
+# tigers = dict['tiger']
+# tigers.remove('toshko')

@@ -16,7 +16,16 @@ class TestAnimal(unittest.TestCase):
         self.assertEqual(self.test_animal.weight, 92)
 
     def test_grow(self):
+        self.assertGreater(self.test_animal.weight)
+        self.assertGreater(self.test_animal.age)
+
+    def test_average_weight(self):
+        self.assertEqual(self.test_animal.average_weight, 15)
+
+    def test_animal_eats(self):
         pass
+
+
 
 
 if __name__ == '__main__':

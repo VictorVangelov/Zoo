@@ -17,8 +17,10 @@ class TestAnimal(unittest.TestCase):
         self.assertEqual(self.test_animal.food_type, "herbivore")
 
     def test_grow(self):
-        self.assertGreater(self.test_animal.weight)
-        self.assertGreater(self.test_animal.age)
+        init_weight = self.test_animal.weight
+        init_age = self.test_animal.age
+        self.assertGreater(init_weight, self.test_animal.weight)
+        self.assertGreater(init_age, self.test_animal.age)
 
     def test_average_weight(self):
         self.assertEqual(self.test_animal.average_weight, 15)

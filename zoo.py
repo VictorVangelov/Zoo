@@ -1,3 +1,6 @@
+import json
+
+
 class Zoo():
 
     dict_of_species_information = {
@@ -17,18 +20,13 @@ class Zoo():
         self.budget = budget
         self.dict_of_animals = {}
 
-
     def save(self, filename):
         dict_for_species = {}
-        dict_for_breed_info = {}
-        dict_for_file["playlist_name"] = self.name
-        for song in self.list_all_songs:
-            list_of_songs.append(song.__dict__)
-        dict_for_file["Songs"] = list_of_songs
+        for breed in Zoo.dict_of_species_information:
+            dict_for_species[breed] = Zoo.dict_of_species_information[breed]
         file = open(filename, "w")
-        file.write(json.dumps(dict_for_file))
+        file.write(json.dumps(dict_for_species))
         file.close()
-        self.save_m3u_playlist(filename)
 # dict = {'tiger': ['toshko', 'boshko']}
 # tigers = dict['tiger']
 # tigers.remove('toshko')
@@ -45,13 +43,11 @@ class Zoo():
     def daily_outcome(self):
         pass
 
-
     def load(self, filename):
         file = open(filename, "r")
         content = json.load(file)
-        self.name = content["playlist_name"]
-        for song in content["Songs"]:
-            self.list_all_songs.append(self.decode_song(song))
+        for breed in content:
+            Zoo.dict_of_species_information[breed] = content[breed]
 
 
 

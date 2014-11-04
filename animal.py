@@ -1,5 +1,6 @@
-class Animal:
+from zoo import Zoo
 
+class Animal:
 
     def __init__(self, species, age, name, gender, weight):
         self.species = species
@@ -26,4 +27,4 @@ class Animal:
         self.grow(amount_food)
 
     def get_chance_of_dying(self):
-        return (self.age / self.life_expectancy)
+        return (self.age / Zoo.life_expectancy)

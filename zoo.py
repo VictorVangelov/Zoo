@@ -62,7 +62,9 @@ class Zoo():
         self.budget -= total_outcome
 
     def check_if_dead(self):
-        pass
+        for animal in self.dict_of_animals.keys():
+            if Animal.get_chance_of_diyng(animal) == 1:
+                self.dict_of_animals[animal] -= 1
 
     def load(self, filename):
         file = open(filename, "r")

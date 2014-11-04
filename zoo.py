@@ -1,3 +1,8 @@
+from animal import Animal
+
+import json
+
+
 class Zoo():
 
     dict_of_species_information = {
@@ -32,19 +37,32 @@ class Zoo():
 # dict = {'tiger': ['toshko', 'boshko']}
 # tigers = dict['tiger']
 # tigers.remove('toshko')
+
     def accomodate(self, new_animal):
-        if new_animal in self.dict_of_animals.keys():
-            self.dict_of_animals[new_animal] += 1
+        if Animal.new_animal.specie in self.dict_of_animals.keys():
+            self.dict_of_animals[Animal.new_animal.specie] += 1
         else:
-            self.dict_of_animals[new_animal] = 1
+            self.dict_of_animals[Animal.new_animal.specie] = 1
         return self.dict_of_animals
 
     def daily_income(self):
-        return sum(self.dict_of_animals.values()) * 60
+        income = sum(self.dict_of_animals.values()) * 60
+        return income
+        self.budget += income
 
     def daily_outcome(self):
-        pass
+        total_outcome = 0
+        for animal in self.dict_of_animals.keys():
+            info = self.dict_of_species_information[animal]
+            if info[food_type] == "carnivore":
+                total_outcome += self.dict_of_animals[animal] * 4
+            elif info[food_type] == "herbivore":
+                total_outcome += self.dict_of_animals[animal] * 2
+        return total_outcome
+        self.budget -= total_outcome
 
+    def check_if_dead(self):
+        pass
 
     def load(self, filename):
         file = open(filename, "r")

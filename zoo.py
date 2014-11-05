@@ -5,6 +5,7 @@ import json
 class Zoo():
 
     DAILY_INCOME_PER_ANIMAL = 60
+
     dict_of_species_information = {
         "Elephant": {"average_weight": 5000, "life_expectancy": 50 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 1, "newborn_average_weight": 100, "weight_age": 50, "food_weight": 0.1},
         "Horse": {"average_weight": 521, "life_expectancy": 15 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 3, "newborn_average_weight": 15, "weight_age": 23, "food_weight": 0.1},
@@ -16,6 +17,31 @@ class Zoo():
         "Sheep": {"average_weight": 55.5, "life_expectancy": 12 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 3, "newborn_average_weight": 4, "weight_age": 5, "food_weight": 0.1},
         "Jaguar": {"average_weight": 100, "life_expectancy": 33 * 365, "food_type": "carnivore", "gestation_period": "24", "num_of_newborns": 1, "newborn_average_weight": 9, "weight_age": 7, "food_weight": 0.2},
         "Pig": {"average_weight": 192, "life_expectancy": 12 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 2, "newborn_average_weight": 10, "weight_age": 10, "food_weight": 0.1}, }
+
+    AVERAGE_DAYS_IN_MOUNTH = 30
+    DAYS_IN_WEEK = 7
+    MOUNTHS_IN_YEAR = 12
+
+    def set_new_breed_information():
+        breed = input("Enter the name of the new breed")
+        average_weight = input("Enter the average weight of the animal")
+        life_expectancy = input("Enter the life expectancy of the animal(in mounth)")
+        food_type = input("Enter the type of food that the breed eat")
+        gestation_period = input("Enter how much mount")
+        num_of_newborns = input("Enter the name of the new breed")
+        newborn_average_weight = input("Enter the name of the new breed")
+        weight_age = input("Enter the name of the new breed")
+        food_weight = input("Enter the name of the new breed")
+        Zoo.dict_of_species_information[breed] = {
+            "average_weight": average_weight,
+            "life_expectancy": life_expectancy,
+            "food_type": food_type,
+            "gestation_period": gestation_period,
+            "num_of_newborns": num_of_newborns,
+            "newborn_average_weight": newborn_average_weight,
+            "weight/age": weight_age,
+            "food/weight": food_weight
+        },
 
     def __init__(self, capacity, budget):
         self.capacity = capacity
@@ -29,9 +55,6 @@ class Zoo():
         file = open(filename, "w")
         file.write(json.dumps(dict_for_species))
         file.close()
-# dict = {'tiger': ['toshko', 'boshko']}
-# tigers = dict['tiger']
-# tigers.remove('toshko')
 
     def accommodate(self, new_animal):
 
@@ -49,10 +72,10 @@ class Zoo():
         pass
 
     def daily_income(self):
-        numm_of_all_animals = 0
+        num_of_all_animals = 0
         for breed in self.dict_of_animals:
-            numm_of_all_animals += len(self.dict_of_animals[breed])
-        income = numm_of_all_animals * Zoo.DAILY_INCOME_PER_ANIMAL
+            num_of_all_animals += len(self.dict_of_animals[breed])
+        income = num_of_all_animals * Zoo.DAILY_INCOME_PER_ANIMAL
         self.budget += income
         return income
 
@@ -92,13 +115,24 @@ class Zoo():
 
     def convert_to_days(self, interval, period):
         if interval == "week":
-            return period*7
+            return period*Zoo.DAYS_IN_WEEK
         elif interval == "mounth":
-            return period*30
+            return period*Zoo.AVERAGE_DAYS_IN_MOUNTH
         elif interval == "day":
             return period
+        elif interval == "year":
+            return period * Zoo.AVERAGE_DAYS_IN_MOUNTH * Zoo.MOUNTHS_IN_YEAR
         else:
             return False
+
+    def move_to_habitat(self, breed, name):
+        for animal in self.dict_of_animals[breed]:
+            if name == animal.name:
+                self.dict_of_animals[breed].remove(animal)
+
+    def feed_all_animals(self):
+        pass
+
 
 if __name__ == '__main__':
     for specie in Zoo.dict_of_species_information:

@@ -10,6 +10,14 @@ class Animal:
         self.gender = gender
         self.weight = weight
 
+    def grow(self):
+        waight_per_day = Zoo.dict_of_species_information[self.species].food_weight / Zoo.AVERAGE_DAYS_IN_MOUNTH
+        if self.weight < self.average_weight:
+            self.weight += waight_per_day
+
+    def increase_age(self):
+        self.age += 1 / Zoo.AVERAGE_DAYS_IN_MOUNTH
+
     def set_average_weight(self, specie):
         if specie in self.dict_of_average_weight:
             self.average_weight = self.dict_of_average_weight[specie]
@@ -20,3 +28,8 @@ class Animal:
 
     def get_chance_of_dying(self):
         return (self.age / Zoo.dict_of_species_information[self.species].life_expectancy)
+
+    def eat(self):
+        self.increase_age()
+        self.grow()
+

@@ -5,6 +5,9 @@ import json
 class Zoo():
 
     DAILY_INCOME_PER_ANIMAL = 60
+    PRICE_FOR_KILO_MEAT = 4
+    PRICE_FOR_KILO_VEGETABLES = 2
+    SIMULATION_PROFIT = 0
 
     dict_of_species_information = {
         "Elephant": {"average_weight": 5000, "life_expectancy": 50 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 1, "newborn_average_weight": 100, "weight_age": 50, "food_weight": 0.1},
@@ -65,12 +68,6 @@ class Zoo():
             self.dict_of_animals.add(new_animal)
             self.set_new_breed_information()
 
-    def availability_for_reproduction(self):
-        pass
-
-    def set_new_breed_chance():
-        pass
-
     def daily_income(self):
         num_of_all_animals = 0
         for breed in self.dict_of_animals:
@@ -84,19 +81,16 @@ class Zoo():
         for animal in self.dict_of_animals:
             info = self.dict_of_species_information[animal.species]
             if info.food_type == "carnivore":
-                total_outcome += self.dict_of_animals[animal] * 4
+                total_outcome += Zoo.PRICE_FOR_KILO_MEAT
             elif info.food_type == "herbivore":
-                total_outcome += self.dict_of_animals[animal] * 2
-        return total_outcome
+                total_outcome += Zoo.PRICE_FOR_KILO_VEGETABLES
         self.budget -= total_outcome
+        return total_outcome
 
     def check_if_dead(self):
         for animal in self.dict_of_animals:
             if Animal.get_chance_of_diyng(animal) == 1:
                 self.dict_of_animals.remove(animal)
-
-    def check_if_in_gestation_period(self):
-        pass
 
     def load(self, filename):
         file = open(filename, "r")
@@ -105,23 +99,26 @@ class Zoo():
             Zoo.dict_of_species_information[breed] = content[breed]
 
     def simulate(self, interval, period):
-        days = self.convert_to_days(interval, period)
+        days = self.convert_interval_to_number(interval)
         if days is not False:
-            for every_day in days:
-                self.simulate_one_day()
+            for period in range(0, days):
+                print(Zoo.SIMULATION_PROFIT)
+                Zoo.SIMULATION_PROFIT = 0
+                for day in range (0, days):
+                    self.simulate_one_day()
         else:
             print("unknown interval type, please try again")
             self.input_command()
 
-    def convert_to_days(self, interval, period):
+    def convert_interval_to_number(self, interval):
         if interval == "week":
-            return period*Zoo.DAYS_IN_WEEK
+            return Zoo.DAYS_IN_WEEK
         elif interval == "mounth":
-            return period*Zoo.AVERAGE_DAYS_IN_MOUNTH
+            return Zoo.AVERAGE_DAYS_IN_MOUNTH
         elif interval == "day":
-            return period
+            return 1
         elif interval == "year":
-            return period * Zoo.AVERAGE_DAYS_IN_MOUNTH * Zoo.MOUNTHS_IN_YEAR
+            return Zoo.AVERAGE_DAYS_IN_MOUNTH * Zoo.MOUNTHS_IN_YEAR
         else:
             return False
 
@@ -130,8 +127,15 @@ class Zoo():
             if name == animal.name:
                 self.dict_of_animals[breed].remove(animal)
 
+    def simulate_one_day(self):
+        self.feed_all_animals()
+        Zoo.SIMULATION_PROFIT -= self.daily_outcome
+        Zoo.SIMULATION_PROFIT += self.daily_income
+
     def feed_all_animals(self):
-        pass
+        for breed in self.dict_of_animals:
+            for animal in self.dict_of_animals[breed]:
+                animal.eat()
 
 
 if __name__ == '__main__':

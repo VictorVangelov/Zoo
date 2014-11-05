@@ -30,6 +30,7 @@ class Zoo():
 # dict = {'tiger': ['toshko', 'boshko']}
 # tigers = dict['tiger']
 # tigers.remove('toshko')
+
     def accomodate(self, new_animal):
         if new_animal in self.dict_of_animals.keys():
             self.dict_of_animals[new_animal] += 1
@@ -49,7 +50,24 @@ class Zoo():
         for breed in content:
             Zoo.dict_of_species_information[breed] = content[breed]
 
+    def simulate(self, interval, period):
+        days = self.convert_to_days(interval, period)
+        if days is not False:
+            for every_day in days:
+                self.simulate_one_day()
+        else:
+            print("unknown interval type, please try again")
+            self.input_command()
 
+    def convert_to_days(self, interval, period):
+        if interval == "week":
+            return period*7
+        elif interval == "mounth":
+            return period*30
+        elif interval == "day":
+            return period
+        else:
+            return False
 
 if __name__ == '__main__':
     for specie in Zoo.dict_of_species_information:

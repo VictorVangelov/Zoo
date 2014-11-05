@@ -1,8 +1,10 @@
+from animal import Animal
 import json
 
 
 class Zoo():
 
+    DAILY_INCOME_PER_ANIMAL = 60
     dict_of_species_information = {
         "Elephant": {"average_weight": 5000, "life_expectancy": 50 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 1, "newborn_average_weight": 100, "weight/age": 50, "food/weight": 0.1},
         "Horse": {"average_weight": 521, "life_expectancy": 15 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 3, "newborn_average_weight": 15, "weight/age": 23, "food/weight": 0.1},
@@ -20,6 +22,17 @@ class Zoo():
         self.budget = budget
         self.dict_of_animals = {}
 
+    def daily_outcome(self):
+        total_outcome = 0
+        for animal in self.dict_of_animals.keys():
+            info = self.dict_of_species_information[animal]
+            if info[food_type] == "carnivore":
+                total_outcome += self.dict_of_animals[animal] * 4
+            elif info[food_type] == "herbivore":
+                total_outcome += self.dict_of_animals[animal] * 2
+        return total_outcome
+        self.budget -= total_outcome
+
     def save(self, filename):
         dict_for_species = {}
         for breed in Zoo.dict_of_species_information:
@@ -31,18 +44,32 @@ class Zoo():
 # tigers = dict['tiger']
 # tigers.remove('toshko')
 
-    def accomodate(self, new_animal):
-        if new_animal in self.dict_of_animals.keys():
-            self.dict_of_animals[new_animal] += 1
+    def accommodate(self, new_animal):
+
+        if new_animal.species in self.dict_of_animals:
+            self.dict_of_animals[new_animal.species].add(new_animal)
         else:
-            self.dict_of_animals[new_animal] = 1
-        return self.dict_of_animals
+            self.dict_of_animals[new_animal.specie] = []
+            self.dict_of_animals.add(new_animal)
+            self.set_new_breed_information()
+
+    def set_new_breed_information():
+        pass
+
 
     def daily_income(self):
-        return sum(self.dict_of_animals.values()) * 60
+        numm_of_all_animals = 0
+        for breed in self.dict_of_animals:
+            numm_of_all_animals += len(self.dict_of_animals[breed])
+        income = numm_of_all_animals * Zoo.DAILY_INCOME_PER_ANIMAL
+        self.budget += income
+        return income
 
-    def daily_outcome(self):
-        pass
+
+    def check_if_dead(self):
+        for animal in self.dict_of_animals.keys():
+            if Animal.get_chance_of_diyng(animal) == 1:
+                self.dict_of_animals[animal] -= 1
 
     def load(self, filename):
         file = open(filename, "r")

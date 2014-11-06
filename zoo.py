@@ -8,6 +8,8 @@ class Zoo():
     PRICE_FOR_KILO_MEAT = 4
     PRICE_FOR_KILO_VEGETABLES = 2
     SIMULATION_PROFIT = 0
+    NEWBORNS = 0
+    DIED = 0
 
     dict_of_species_information = {
         "Elephant": {"average_weight": 5000, "life_expectancy": 50 * 365, "food_type": "herbivore", "gestation_period": "24", "num_of_newborns": 1, "newborn_average_weight": 100, "weight_age": 50, "food_weight": 0.1},
@@ -50,6 +52,7 @@ class Zoo():
         self.capacity = capacity
         self.budget = budget
         self.dict_of_animals = {}
+        self.dict_of_dead_and_newborn_animals = {}
 
     def save(self, filename):
         dict_for_species = {}
@@ -99,18 +102,18 @@ class Zoo():
             Zoo.dict_of_species_information[breed] = content[breed]
 
     def simulate(self, interval, period):
-        days = self.convert_interval_to_number(interval)
+        days = self.convert_interval_to_day(interval)
         if days is not False:
             for period in range(0, days):
                 print(Zoo.SIMULATION_PROFIT)
                 Zoo.SIMULATION_PROFIT = 0
-                for day in range (0, days):
+                for day in range(0, days):
                     self.simulate_one_day()
         else:
             print("unknown interval type, please try again")
             self.input_command()
 
-    def convert_interval_to_number(self, interval):
+    def convert_interval_to_day(self, interval):
         if interval == "week":
             return Zoo.DAYS_IN_WEEK
         elif interval == "mounth":
@@ -132,11 +135,51 @@ class Zoo():
         Zoo.SIMULATION_PROFIT -= self.daily_outcome
         Zoo.SIMULATION_PROFIT += self.daily_income
 
+    # def perambulate_all_animals(self):
+    #     for breed in self.dict_of_animals:
+    #         for animal in self.dict_of_animals[breed]:
+    #             self.feed(animal)
+    # def feed(self, animal):
+    #     animal.eat()
+#USE FUNCTIONAL PROGRAMMING in perambulate_all_animals for adding print all dead and newborn animals, or i wount DRM
+
     def feed_all_animals(self):
         for breed in self.dict_of_animals:
             for animal in self.dict_of_animals[breed]:
                 animal.eat()
 
+    def check_the_profit(self):
+        if Zoo.SIMULATION_PROFIT < 0:
+            return False
+
+    def print_zoo_profit_status(self, some_boolean):
+        if some_boolean is not True:
+            print("The zoo  hasnt enought money to pay for foood, the animals start to eat them selfs")
+
+    def print_dead_or_newborn_animals(self, status, the_list):
+        if len(the_list) is not 0:
+            if len(the_list) == 1:
+                animals = "animal"
+            elif len(the_list) > 1:
+                animals = "animals"
+            print(" {} {} : {}".format(status, animals.join(the_list)))
+
+    def clearance_all_parameters(self):
+        Zoo.SIMULATION_PROFIT = 0
+        Zoo.NEWBORNS = 0
+        Zoo.DIED = 0
+
+    def see_all_animals(self):
+        for breed in self.dict_of_animals:
+            for animal in self.dict_of_animals[breed]:
+                print("{} : {}, {}, {}".format(animal.name, animal.species, animal.age, ))
+
+
+    def check_for_dead_or_newborn_animals(self):
+        if Zoo.DIED is not 0:
+            self.print_dead_or_newborn_animals("Died", self.dict_of_dead_and_newborn_animals["died"])
+        if Zoo.NEWBORNS is not 0:
+            self.print_dead_or_newborn_animals("Newborn", self.dict_of_dead_and_newborn_animals["newborn"])
 
 if __name__ == '__main__':
     for specie in Zoo.dict_of_species_information:

@@ -105,8 +105,9 @@ class Zoo():
         days = self.convert_interval_to_day(interval)
         if days is not False:
             for period in range(0, days):
-                print(Zoo.SIMULATION_PROFIT)
-                Zoo.SIMULATION_PROFIT = 0
+                self.see_all_animals()
+                self.check_for_dead_or_newborn_animals()
+                self.clearance_all_parameters()
                 for day in range(0, days):
                     self.simulate_one_day()
         else:
@@ -162,7 +163,7 @@ class Zoo():
                 animals = "animal"
             elif len(the_list) > 1:
                 animals = "animals"
-            print(" {} {} : {}".format(status, animals.join(the_list)))
+            print(" {} so far {} : {}".format(status, animals.join(the_list)))
 
     def clearance_all_parameters(self):
         Zoo.SIMULATION_PROFIT = 0
@@ -172,8 +173,7 @@ class Zoo():
     def see_all_animals(self):
         for breed in self.dict_of_animals:
             for animal in self.dict_of_animals[breed]:
-                print("{} : {}, {}, {}".format(animal.name, animal.species, animal.age, ))
-
+                print("{} : {}, {}, {}".format(animal.name, animal.species, animal.age, animal.weight))
 
     def check_for_dead_or_newborn_animals(self):
         if Zoo.DIED is not 0:
